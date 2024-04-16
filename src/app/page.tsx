@@ -17,6 +17,21 @@ export default function Home() {
   const deleteItem = (index: number) => {
     setList(list.filter((_, i) => i !== index));
   };
+
+  const toggleItem = (index: number) => {
+    // setList(
+    //   list.map((item, i) => {
+    //     if (i === index) {
+    //       return { ...item, checked: !item.checked };
+    //     }
+    //     return item;
+    //   })
+    // );
+
+    const newList = [...list];
+    newList[index].checked = !newList[index].checked;
+    setList(newList);
+  };
   return (
     <div className="w-screen h-screen flex flex-col items-center text-2xl">
       <h1 className="text-4xl mt-5">Lista de Tarefas</h1>
@@ -37,6 +52,12 @@ export default function Home() {
       <ul className="w-full max-w-lg list-disc pl-5">
         {list.map((item, index) => (
           <li key={index}>
+            <input
+              type="checkbox"
+              onClick={() => toggleItem(index)}
+              checked={item.checked}
+              className="w-6 h-6 mr-4"
+            />
             {item.label} -{" "}
             <button
               onClick={() => deleteItem(index)}

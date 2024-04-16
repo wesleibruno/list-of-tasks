@@ -9,16 +9,19 @@ export default function Home() {
 
   const handleAddButton = () => {
     if (itemInput.trim() !== "") {
-      setList([...list, { label: itemInput, checked: false }]);
+      setList([
+        ...list,
+        { id: list.length + 1, label: itemInput, checked: false },
+      ]);
       setItemInput("");
     }
   };
 
-  const deleteItem = (index: number) => {
-    setList(list.filter((_, i) => i !== index));
+  const deleteItem = (id: number) => {
+    setList(list.filter((item) => item.id !== id));
   };
 
-  const toggleItem = (index: number) => {
+  const toggleItem = (id: number) => {
     // setList(
     //   list.map((item, i) => {
     //     if (i === index) {
@@ -28,8 +31,28 @@ export default function Home() {
     //   })
     // );
 
-    const newList = [...list];
-    newList[index].checked = !newList[index].checked;
+    // const newList = [...list];
+    // newList[index].checked = !newList[index].checked;
+    // setList(newList);
+
+    // let newList = [...list];
+    // newList = newList.map((item) => {
+    //   if (item.id === id) {
+    //     return { ...item, checked: !item.checked };
+    //   }
+    //   return item;
+    // });
+    // setList(newList);
+
+    let newList = [...list];
+
+    for (let i in newList) {
+      if (newList[i].id === id) {
+        newList[i].checked = !newList[i].checked;
+        break;
+      }
+    }
+
     setList(newList);
   };
   return (
@@ -50,17 +73,17 @@ export default function Home() {
       <p className="my-4">Tarefas: {list.length}</p>
 
       <ul className="w-full max-w-lg list-disc pl-5">
-        {list.map((item, index) => (
-          <li key={index}>
+        {list.map((item) => (
+          <li key={item.id}>
             <input
               type="checkbox"
-              onClick={() => toggleItem(index)}
+              onClick={() => toggleItem(item.id)}
               checked={item.checked}
               className="w-6 h-6 mr-4"
             />
             {item.label} -{" "}
             <button
-              onClick={() => deleteItem(index)}
+              onClick={() => deleteItem(item.id)}
               className="hover:underline"
             >
               [deletar]

@@ -5,22 +5,19 @@ import { useState } from "react";
 
 export default function Home() {
   const [itemInput, setItemInput] = useState("");
-  const [list, setList] = useState<TodoItem[]>([
-    {
-      label: "Fazer dever de casa",
-      checked: false,
-    },
-    {
-      label: "Estudar React",
-      checked: true,
-    },
-  ]);
+  const [list, setList] = useState<TodoItem[]>([]);
 
   const handleAddButton = () => {
-    if (itemInput) {
+    if (itemInput.trim() !== "") {
       setList([...list, { label: itemInput, checked: false }]);
       setItemInput("");
     }
+  };
+
+  const deleteItem = (index: number) => {
+    const newList = [...list];
+    newList.splice(index, 1);
+    setList(newList);
   };
   return (
     <div className="w-screen h-screen flex flex-col items-center text-2xl">
@@ -40,10 +37,15 @@ export default function Home() {
       <p className="my-4">Tarefas: {list.length}</p>
 
       <ul className="w-full max-w-lg list-disc pl-5">
-        {list.map((item) => (
-          <li key={item.label}>
+        {list.map((item, index) => (
+          <li key={index}>
             {item.label} -{" "}
-            <button className="hover:underline">[deletar]</button>
+            <button
+              onClick={() => deleteItem(index)}
+              className="hover:underline"
+            >
+              [deletar]
+            </button>
           </li>
         ))}
       </ul>

@@ -15,9 +15,7 @@ export default function Home() {
   };
 
   const deleteItem = (index: number) => {
-    const newList = [...list];
-    newList.splice(index, 1);
-    setList(newList);
+    setList(list.filter((_, i) => i !== index));
   };
   return (
     <div className="w-screen h-screen flex flex-col items-center text-2xl">
